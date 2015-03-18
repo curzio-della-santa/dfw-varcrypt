@@ -1,0 +1,58 @@
+{
+    "name": "detailnet/dfw-varcrypt",
+    "description": "DETAIL Framework library for working with encrypted environment variables",
+    "type": "library",
+    "keywords": [
+        "dfw",
+        "detailnet",
+        "environment",
+        "variables",
+        "encryption"
+    ],
+    "homepage": "https://github.com/detailnet/dfw-varcrypt/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ivan Wolf",
+            "email": "ivan.wolf@detailnet.ch"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "psr/log": "~1.0",
+        "guzzlehttp/guzzle": "~5.0.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.4.5",
+        "squizlabs/php_codesniffer" : "~2.2.0",
+        "phpmd/phpmd": "~2.1.3",
+        "satooshi/php-coveralls": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "Detail\\VarCrypt\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-0": {
+            "DetailTest\\VarCrypt\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        }
+    },
+    "archive": {
+        "exclude": [
+            "!vendor",
+            "tests",
+            "*phpunit.xml",
+            ".coveralls.yml",
+            ".travis.yml",
+            "build.xml",
+            "build.properties",
+            "composer.phar"
+        ]
+    }
+}
