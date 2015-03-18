@@ -14,25 +14,50 @@ use Keboola\Encryption;
 class MultiEncryptor extends BaseEncryptor
 {
     /**
+     * Apply group's values as individual, plain environment variables.
+     *
+     * The group name prefixes the variable name (joined by the separator).
+     *
+     * @param array|string $groups
+     * @param string $separator
+     */
+    public function applyVariables($groups, $separator = '_')
+    {
+        if (!is_array($groups)) {
+            $groups = array($groups);
+        }
+
+        foreach ($groups as $group) {
+            $values = $this->getVariables($group);
+
+            foreach ($values as $variable => $value) {
+                $name = $group . $separator . $variable;
+
+                $this->setEnvironmentVariable($name, $value);
+            }
+        }
+    }
+
+    /**
      * Set values as an encrypted and base64 encoded environment variable.
      *
-     * @param string $groupName
+     * @param string $group
      * @param array $values
      */
-    public function setVariables($groupName, array $values)
+    public function setVariables($group, array $values)
     {
-        $this->setEnvironmentVariable($groupName, $this->encode($values));
+        $this->setEnvironmentVariable($group, $this->encode($values));
     }
 
     /**
      * Decode and decrypt values from a previously set environment variable.
      *
-     * @param string $groupName
+     * @param string $group
      * @return array
      */
-    public function getVariables($groupName)
+    public function getVariables($group)
     {
-        $encodedValues = $this->getEnvironmentVariable($groupName);
+        $encodedValues = $this->getEnvironmentVariable($group);
 
         if ($encodedValues === null) {
             return null;
@@ -44,13 +69,13 @@ class MultiEncryptor extends BaseEncryptor
     /**
      * Decode and decrypt a single value from a previously set environment variable.
      *
-     * @param string $groupName
+     * @param string $group
      * @param string $name
      * @return mixed|null
      */
-    public function getVariable($groupName, $name)
+    public function getVariable($group, $name)
     {
-        $variables = $this->getVariables($groupName);
+        $variables = $this->getVariables($group);
 
         return array_key_exists($name, $variables) ? $variables[$name] : null;
     }

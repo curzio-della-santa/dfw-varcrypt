@@ -22,3 +22,7 @@ $encryptor = new MultiEncryptor(new Encryption\AesEncryptor($getConfig('key')));
 $encryptor->setVariables('mysql', $variables);
 
 printf("MYSQL_PASSWORD: %s\n", $encryptor->getVariable('mysql', 'password'));
+
+$encryptor->applyVariables(array('mysql'));
+
+printf("MYSQL_PASSWORD: %s\n", getenv('MYSQL_PASSWORD'));
