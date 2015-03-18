@@ -25,4 +25,4 @@ printf("MYSQL_PASSWORD: %s\n", $encryptor->getVariable('mysql', 'password'));
 
 $encryptor->applyVariables(array('mysql'));
 
-printf("MYSQL_PASSWORD: %s\n", getenv('MYSQL_PASSWORD'));
+printf("MYSQL_PORT: %s\n", getenv('MYSQL_PORT'));
