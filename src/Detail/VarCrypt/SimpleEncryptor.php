@@ -14,14 +14,7 @@ class SimpleEncryptor extends BaseEncryptor
      */
     public function setVariable($name, $value)
     {
-        $encodedValue = $this->encode($value);
-        $result = putenv("$name=$encodedValue");
-
-        if ($result === false) {
-            throw new Exception\RuntimeException(
-                sprintf('Failed to set environment variable "%s"', $name)
-            );
-        }
+        $this->setEnvironmentVariable($name, $this->encode($value));
     }
 
     /**
@@ -32,14 +25,6 @@ class SimpleEncryptor extends BaseEncryptor
      */
     public function getVariable($name)
     {
-        $encodedValue = getenv($name);
-
-        if ($encodedValue === false) {
-            return null;
-        }
-
-        $value = $this->decode($encodedValue);
-
-        return $value;
+        return $this->decode($this->getEnvironmentVariable($name));
     }
 }

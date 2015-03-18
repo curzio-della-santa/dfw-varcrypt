@@ -62,4 +62,38 @@ abstract class BaseEncryptor
 
         return $value;
     }
+
+    /**
+     * Set environment variable.
+     *
+     * @param string $name
+     * @param $value
+     */
+    protected function setEnvironmentVariable($name, $value)
+    {
+        $result = putenv("$name=$value");
+
+        if ($result === false) {
+            throw new Exception\RuntimeException(
+                sprintf('Failed to set environment variable "%s"', $name)
+            );
+        }
+    }
+
+    /**
+     * Get environment variable.
+     *
+     * @param string $name
+     * @return string|null
+     */
+    protected function getEnvironmentVariable($name)
+    {
+        $value = getenv($name);
+
+        if ($value === false) {
+            return null;
+        }
+
+        return $value;
+    }
 }
