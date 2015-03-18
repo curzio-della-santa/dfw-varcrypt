@@ -71,6 +71,7 @@ abstract class BaseEncryptor
      */
     protected function setEnvironmentVariable($name, $value)
     {
+        $name = strtoupper($name);
         $result = putenv("$name=$value");
 
         if ($result === false) {
@@ -88,12 +89,16 @@ abstract class BaseEncryptor
      */
     protected function getEnvironmentVariable($name)
     {
-        $value = getenv($name);
+        $name = strtoupper($name);
 
-        if ($value === false) {
-            return null;
+        switch (true) {
+            case array_key_exists($name, $_ENV):
+                return $_ENV[$name];
+            case array_key_exists($name, $_SERVER):
+                return $_SERVER[$name];
+            default:
+                $value = getenv($name);
+                return $value === false ? null : $value; // Switch getenv default to null
         }
-
-        return $value;
     }
 }

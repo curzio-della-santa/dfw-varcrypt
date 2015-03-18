@@ -4,6 +4,13 @@ namespace Detail\VarCrypt;
 
 use Keboola\Encryption;
 
+/**
+ * SimpleEncryptor.
+ *
+ * Use this class to write (and read) encrypted and base64 encoded environment variables.
+ *
+ * @package Detail\VarCrypt
+ */
 class SimpleEncryptor extends BaseEncryptor
 {
     /**
@@ -25,6 +32,12 @@ class SimpleEncryptor extends BaseEncryptor
      */
     public function getVariable($name)
     {
-        return $this->decode($this->getEnvironmentVariable($name));
+        $encodedValue = $this->getEnvironmentVariable($name);
+
+        if ($encodedValue === null) {
+            return null;
+        }
+
+        return $this->decode($encodedValue);
     }
 }

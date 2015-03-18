@@ -14,6 +14,6 @@ $getConfig = function($optionName) use ($config) {
 };
 
 $encryptor = new SimpleEncryptor(new Encryption\AesEncryptor($getConfig('key')));
-$encryptor->setVariable('TEST', 'Unencrypted value');
+$encryptor->setVariable('mysql_password', 'unencrypted_mysql_password');
 
-printf("TEST: %s\n", $encryptor->getVariable('TEST'));
+printf("MYSQL_PASSWORD: %s\n", $encryptor->getVariable('mysql_password'));
