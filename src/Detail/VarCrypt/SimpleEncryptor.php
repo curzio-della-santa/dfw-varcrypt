@@ -4,68 +4,42 @@ namespace Detail\VarCrypt;
 
 use Keboola\Encryption;
 
-class SimpleEncryptor
+class SimpleEncryptor extends BaseEncryptor
 {
     /**
-     * @var Encryption\EncryptorInterface
-     */
-    protected $encryptor;
-
-    /**
-     * @param Encryption\EncryptorInterface $encryptor
-     */
-    public function __construct(Encryption\EncryptorInterface $encryptor)
-    {
-        $this->setEncryptor($encryptor);
-    }
-
-    /**
-     * @return Encryption\EncryptorInterface
-     */
-    public function getEncryptor()
-    {
-        return $this->encryptor;
-    }
-
-    /**
-     * @param Encryption\EncryptorInterface $encryptor
-     */
-    public function setEncryptor(Encryption\EncryptorInterface $encryptor)
-    {
-        $this->encryptor = $encryptor;
-    }
-
-    /**
-     * @param string $name
-     * @return string|null
-     */
-    public function getVariable($name)
-    {
-        $encryptedValue = getenv($name);
-
-        if ($encryptedValue === false) {
-            return null;
-        }
-
-        $value = $this->getEncryptor()->decrypt($encryptedValue);
-
-        return $value;
-    }
-
-    /**
+     * Set an encrypted and base64 encoded environment variable.
+     *
      * @param string $name
      * @param string $value
      */
     public function setVariable($name, $value)
     {
-        $encryptedValue = $this->getEncryptor()->encrypt($value);
-
-        $result = putenv("$name=$encryptedValue");
+        $encodedValue = $this->encode($value);
+        $result = putenv("$name=$encodedValue");
 
         if ($result === false) {
             throw new Exception\RuntimeException(
                 sprintf('Failed to set environment variable "%s"', $name)
             );
         }
+    }
+
+    /**
+     * Decode and decrypt a previously set environment variable.
+     *
+     * @param string $name
+     * @return string|null
+     */
+    public function getVariable($name)
+    {
+        $encodedValue = getenv($name);
+
+        if ($encodedValue === false) {
+            return null;
+        }
+
+        $value = $this->decode($encodedValue);
+
+        return $value;
     }
 }
