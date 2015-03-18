@@ -4,7 +4,7 @@ namespace Detail\VarCrypt;
 
 use Keboola\Encryption;
 
-class VarEncryptor
+class SimpleEncryptor
 {
     /**
      * @var Encryption\EncryptorInterface

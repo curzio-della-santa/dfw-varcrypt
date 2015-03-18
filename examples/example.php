@@ -1,7 +1,7 @@
 <?php
 
 use Keboola\Encryption;
-use Detail\VarCrypt\VarEncryptor;
+use Detail\VarCrypt\SimpleEncryptor;
 
 $config = require 'bootstrap.php';
 
@@ -13,7 +13,7 @@ $getConfig = function($optionName) use ($config) {
     return $config[$optionName];
 };
 
-$encryptor = new VarEncryptor(new Encryption\AesEncryptor($getConfig('key')));
+$encryptor = new SimpleEncryptor(new Encryption\AesEncryptor($getConfig('key')));
 $encryptor->setVariable('TEST', 'Unencrypted value');
 
 printf("TEST: %s\n", $encryptor->getVariable('TEST'));
