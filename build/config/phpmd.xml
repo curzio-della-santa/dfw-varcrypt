@@ -50,5 +50,7 @@
         </properties>
     </rule>
 
-    <rule ref="rulesets/controversial.xml" />
+    <rule ref="rulesets/controversial.xml">
+        <exclude name="Superglobals"/>
+    </rule>
 </ruleset>
