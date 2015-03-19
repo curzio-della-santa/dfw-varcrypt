@@ -11,7 +11,7 @@ if (file_exists($basePath . 'vendor/autoload.php')) {
     );
 }
 
-$loader->add('DetailTest\FileConversion', __DIR__);
+$loader->add('DetailTest\VarCrypt', __DIR__);
 
 if (!$config = @include $basePath . 'tests/configuration.php') {
     $config = require $basePath . 'tests/configuration.php.dist';
