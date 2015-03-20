@@ -1,6 +1,7 @@
 <?php
 
 use Keboola\Encryption;
+
 use Detail\VarCrypt\MultiEncryptor;
 
 $config = require 'bootstrap.php';
