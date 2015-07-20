@@ -30,11 +30,7 @@ class MultiEncryptor extends BaseEncryptor
         foreach ($groups as $group) {
             $values = $this->getVariables($group);
 
-            foreach ($values as $variable => $value) {
-                $name = $group . $separator . $variable;
-
-                $this->setEnvironmentVariable($name, $value);
-            }
+            $this->setEnvironmentVariables($values, $group, $separator);
         }
     }
 
@@ -110,6 +106,26 @@ class MultiEncryptor extends BaseEncryptor
         $this->handleJsonError('Failed to decode group values from JSON');
 
         return $values;
+    }
+
+    /**
+     * Recursively set environment variables (for each leaf).
+     *
+     * @param array $values
+     * @param string $prefix
+     * @param string $separator
+     */
+    protected function setEnvironmentVariables(array $values, $prefix, $separator = '_')
+    {
+        foreach ($values as $variable => $value) {
+            $name = $prefix . $separator . $variable;
+
+            if (is_array($value)) {
+                $this->setEnvironmentVariables($value, $name, $separator);
+            } else {
+                $this->setEnvironmentVariable($name, $value);
+            }
+        }
     }
 
     /**
